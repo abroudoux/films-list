@@ -1,0 +1,16 @@
+*::after, *::before {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-size: 18px;
+}
+html a, body a {
+  text-decoration: none;
+  color: black;
+}
+
+/*# sourceMappingURL=global.css.map */

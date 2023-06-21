@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "dist/js",
+        "sourceMap": true,
+        "strict": true,
+        "preserveConstEnums": true,
+    },
+    "files": [
+        "src/ts/app.ts"
+    ],
+}
