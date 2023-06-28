@@ -1,17 +1,14 @@
 {
   "dependencies": {
     "@notionhq/client": "^2.2.5",
-    "dotenv": "^16.3.1",
-    "node-sass": "^8.0.0"
+    "dotenv": "^16.3.1"
   },
   "name": "template-htm-css",
   "version": "1.0.0",
   "main": "scripts.js",
-  "devDependencies": {
-    "typescript": "^5.0.4"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
