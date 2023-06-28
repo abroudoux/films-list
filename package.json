@@ -8,7 +8,8 @@
   "main": "scripts.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "get": "node get.js",
+    "add" : "node add.js"
   },
   "keywords": [],
   "author": "",
