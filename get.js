@@ -1,8 +1,9 @@
-import { Client } from "@notionhq/client";
-import { writeFileSync } from "fs";
-import { join } from "path";
+const { Client } = require("@notionhq/client");
+const fs = require("fs");
+const path = require("path");
 
 require("dotenv").config();
+
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
@@ -28,8 +29,8 @@ async function importPages() {
         page.children = blocks ;
     };
 
-    const outputFile = join(__dirname, "notion-export.json");
-    writeFileSync(outputFile, JSON.stringify(pages, null, 2));
+    const outputFile = path.join(__dirname, "notion-export.json");
+    fs.writeFileSync(outputFile, JSON.stringify(pages, null, 2));
     console.log('Wrote ${pages.length} pages to ${pages.output}');
 };
 
