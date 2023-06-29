@@ -47,5 +47,12 @@ async function addToDatabase(databaseId, title, real, status) {
     };
 };
 
+if ( process.argv.length === 5 ) {
+    const title = process.argv[2];
+    const real = process.argv[3];
+    const status = process.argv[4] === 'true' || process.argv[4] === 'false';
 
-addToDatabase(databaseId, 'Oppenheimer', 'Christopher Nolan', true);
+    addToDatabase(databaseId, title, real, status);
+} else {
+    console.error('Veuillez fournir les 3 arguments nécessaires: title, real, status');
+}
