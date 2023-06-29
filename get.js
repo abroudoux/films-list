@@ -4,7 +4,6 @@ const path = require("path");
 
 require("dotenv").config();
 
-
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 async function getBlocks(block_id) { 
@@ -31,7 +30,6 @@ async function importPages() {
 
     const outputFile = path.join(__dirname, "notion-export.json");
     fs.writeFileSync(outputFile, JSON.stringify(pages, null, 2));
-    console.log('Wrote ${pages.length} pages to ${pages.output}');
 };
 
 importPages();

@@ -2,7 +2,6 @@ const dotenv = require('dotenv');
 const { Client } = require('@notionhq/client');
 dotenv.config();
 
-
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
@@ -55,4 +54,4 @@ if ( process.argv.length === 5 ) {
     addToDatabase(databaseId, title, real, status);
 } else {
     console.error('Veuillez fournir les 3 arguments nécessaires: title, real, status');
-}
+};
