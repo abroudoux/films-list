@@ -3,7 +3,7 @@
     "object": "page",
     "id": "b889178d-a097-4900-9f7e-1dd08d70bf42",
     "created_time": "2023-06-29T20:22:00.000Z",
-    "last_edited_time": "2023-06-29T20:22:00.000Z",
+    "last_edited_time": "2023-06-29T20:49:00.000Z",
     "created_by": {
       "object": "user",
       "id": "14746066-cdc5-466d-b51a-b31efa1915ce"
@@ -55,7 +55,7 @@
           {
             "type": "text",
             "text": {
-              "content": "Arrival",
+              "content": "Cowboy Bepop",
               "link": null
             },
             "annotations": {
@@ -66,13 +66,13 @@
               "code": false,
               "color": "default"
             },
-            "plain_text": "Arrival",
+            "plain_text": "Cowboy Bepop",
             "href": null
           }
         ]
       }
     },
-    "url": "https://www.notion.so/Arrival-b889178da09749009f7e1dd08d70bf42",
+    "url": "https://www.notion.so/Cowboy-Bepop-b889178da09749009f7e1dd08d70bf42",
     "public_url": null,
     "children": []
   },
