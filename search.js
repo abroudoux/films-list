@@ -1,16 +1,15 @@
 const { promises: fsPromises } = require('fs');
 const puppeteer = require('puppeteer');
-// const axios = require('axios');
 
-let FilmsList = [];
+let FilmsNetflix = [];
 
-const rapideAPIKey = process.env.NETFLIX_API_KEY;
-
-async function asyncReadFile(filename) {
+async function readFile(filename) {
     try {
         const contents = await fsPromises.readFile(filename, 'utf-8');
         FilmsList = contents.split(/\r?\n/);
-        console.log(FilmsList);
+        // for (const film of FilmsList) {
+        //     console.log(film);
+        // }
 
         return FilmsList;
     } catch (err) {
@@ -18,98 +17,69 @@ async function asyncReadFile(filename) {
     }
 };
 
-asyncReadFile('./films.txt');
+// readFile('./films.txt');
 
-function main() {
-    automateSearch();
+async function processFilmsList() {
+
+    // for (const film of FilmsList) {
+    //     // const filmTitle = film.replace(/"/g, '');
+    //     const filmTitle = extractFilmTitle(film);
+    //     await getGoogleSearchResults(filmTitle);
+    // };
+
+    // console.log('Films à regarder :', FilmsNetflix);
+
+    try {
+        const FilmsList = await readFile('./films.txt');
+
+        for (const film of FilmsList) {
+            const filmTitle = extractFilmTitle(film);
+            await getGoogleSearchResults(filmTitle);
+        }
+
+        console.log('Films disponibles sur Netflix :', FilmsNetflix);
+    } catch (err) {
+        console.error('Une erreur s\'est produite :', err);
+    }
 };
 
-async function automateSearch() {
-    const browser = await puppeteer.launch({ headless: false });
+function extractFilmTitle(film) {
+    const filmParts = film.replace(/"/g, '').split(' - ');
+    return filmParts[0].trim();
+};
+
+async function getGoogleSearchResults(filmTitle) {
+    const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
+
+    const searchQuery = `netflix ${filmTitle}`;
+    const encodedSearchQuery = encodeURIComponent(searchQuery);
+    const searchUrl = `https://www.google.com/search?q=${encodedSearchQuery}`;
+
+    await page.goto(searchUrl);
+    await page.waitForSelector('div.g');
+
+    const searchResults = await page.$$eval('div.g', (results) => {
+        results = results.slice(0, 1);
+
+        const titles = results.map((result) => {
+            const titleElement = result.querySelector('h3');
+            return titleElement ? titleElement.textContent : '';
+        });
+
+        return titles;
+    });
+
+    searchResults.forEach((title, index) => {
+        console.log(`Résultat ${index + 1}: ${title}`);
+        if (title.startsWith('Watch')) {
+            FilmsNetflix.push(filmTitle);
+        }
+    });
+
+    await browser.close();
 };
 
-main();
-
-// const url = 'https://unogs-unogs-v1.p.rapidapi.com/search/titles?order_by=title&title=Cowboy%20Bepop';
-// const options = {
-//     method: 'GET',
-//     qs: {
-//         order_by: 'title',
-//         title: 'Cowboy Bepop',
-//         type: 'movie'
-//     },
-// 	headers: {
-// 	    'X-RapidAPI-Key': rapideAPIKey,
-// 		'X-RapidAPI-Host': 'unogs-unogs-v1.p.rapidapi.com'
-// 	},
-// };
-
-// try {
-// 	const response = await fetch(url, options);
-// 	const result = await response.text();
-// 	console.log(result);
-// } catch (error) {
-// 	console.error(error);
-// }
-
-// const options = {
-//     method: 'GET',
-//     url: 'https://unogs-unogs-v1.p.rapidapi.com/search/titles',
-//     qs: {
-//         order_by: 'title',
-//         title: 'Cowboy Bepop',
-//         type: 'movie'
-//     },
-//     headers: {
-//         'X-RapidAPI-Key': 'ba2fa25a0bmsh0b79613c7d61b88p1e9c8bjsn256a25f0f2e7',
-//         'X-RapidAPI-Host': 'unogs-unogs-v1.p.rapidapi.com'
-//     }
-// };
-
-// axios
-//     .get(options.url, {
-//         params: options.params,
-//         headers: options.headers,
-//     })
-//     .then((response) => {
-//         const results = response.data;
-
-//         if (results && results.results && results.results.length > 0) {
-//             const firstResult = results.results[0];
-//             const title = firstResult.title;
-
-//         if (title === options.params.title) {
-//             console.log('Titre valide trouvé :', title);
-//         } else {
-//             console.error('Aucun résultat valide trouvé.');
-//         }
-//         } else {
-//         console.error('Aucun résultat trouvé.');
-//         }
-//     })
-//     .catch((error) => {
-//         console.error(error);
-//     });
-
-// request(options, function (error, _response, body) {
-//     if (error) {
-//         console.error(error);
-//         return;
-//     };
-
-//     const results = JSON.parse(body);
-
-//     if (results && results.results && results.results.length > 0) {
-//         const firstResult = results.results[0];
-//         const title = firstResult.title;
-
-//         if ( title === options.qs.title ) {
-//             console.log('Titre valide trouvé :', title);
-//         } else {
-//           console.error('Aucun résultat valide trouvé.');
-//         };
-//     } else {
-//         console.error('Aucun résultat trouvé.');
-//     };
-// });
+processFilmsList().catch((error) => {
+    console.error('Une erreur s\'est produite :', error);
+});
