@@ -1,8 +1,8 @@
-const {promises: fsPromises} = require('fs');
-// const request = require('request');
+const { promises: fsPromises } = require('fs');
+const puppeteer = require('puppeteer');
+// const axios = require('axios');
 
 let FilmsList = [];
-// let ArrayTest = ["Cowboy Bepop", "Hunter x Hunter", "The Office"]
 
 const rapideAPIKey = process.env.NETFLIX_API_KEY;
 
@@ -18,26 +18,98 @@ async function asyncReadFile(filename) {
     }
 };
 
-console.log(FilmsList);
-
 asyncReadFile('./films.txt');
 
-const options = {
-    method: 'GET',
-    url: 'https://unogs-unogs-v1.p.rapidapi.com/search/titles',
-    qs: {
-        order_by: 'date',
-        title: 'Cowboy Bepop',
-        type: 'movie'
-    },
-    headers: {
-        'X-RapidAPI-Key': rapideAPIKey,
-        'X-RapidAPI-Host': 'unogs-unogs-v1.p.rapidapi.com'
-    }
+function main() {
+    automateSearch();
 };
 
-request(options, function (error, response, body) {
-	if (error) throw new Error(error);
+async function automateSearch() {
+    const browser = await puppeteer.launch({ headless: false });
+    const page = await browser.newPage();
+};
 
-	console.log(body);
-});
+main();
+
+// const url = 'https://unogs-unogs-v1.p.rapidapi.com/search/titles?order_by=title&title=Cowboy%20Bepop';
+// const options = {
+//     method: 'GET',
+//     qs: {
+//         order_by: 'title',
+//         title: 'Cowboy Bepop',
+//         type: 'movie'
+//     },
+// 	headers: {
+// 	    'X-RapidAPI-Key': rapideAPIKey,
+// 		'X-RapidAPI-Host': 'unogs-unogs-v1.p.rapidapi.com'
+// 	},
+// };
+
+// try {
+// 	const response = await fetch(url, options);
+// 	const result = await response.text();
+// 	console.log(result);
+// } catch (error) {
+// 	console.error(error);
+// }
+
+// const options = {
+//     method: 'GET',
+//     url: 'https://unogs-unogs-v1.p.rapidapi.com/search/titles',
+//     qs: {
+//         order_by: 'title',
+//         title: 'Cowboy Bepop',
+//         type: 'movie'
+//     },
+//     headers: {
+//         'X-RapidAPI-Key': 'ba2fa25a0bmsh0b79613c7d61b88p1e9c8bjsn256a25f0f2e7',
+//         'X-RapidAPI-Host': 'unogs-unogs-v1.p.rapidapi.com'
+//     }
+// };
+
+// axios
+//     .get(options.url, {
+//         params: options.params,
+//         headers: options.headers,
+//     })
+//     .then((response) => {
+//         const results = response.data;
+
+//         if (results && results.results && results.results.length > 0) {
+//             const firstResult = results.results[0];
+//             const title = firstResult.title;
+
+//         if (title === options.params.title) {
+//             console.log('Titre valide trouvé :', title);
+//         } else {
+//             console.error('Aucun résultat valide trouvé.');
+//         }
+//         } else {
+//         console.error('Aucun résultat trouvé.');
+//         }
+//     })
+//     .catch((error) => {
+//         console.error(error);
+//     });
+
+// request(options, function (error, _response, body) {
+//     if (error) {
+//         console.error(error);
+//         return;
+//     };
+
+//     const results = JSON.parse(body);
+
+//     if (results && results.results && results.results.length > 0) {
+//         const firstResult = results.results[0];
+//         const title = firstResult.title;
+
+//         if ( title === options.qs.title ) {
+//             console.log('Titre valide trouvé :', title);
+//         } else {
+//           console.error('Aucun résultat valide trouvé.');
+//         };
+//     } else {
+//         console.error('Aucun résultat trouvé.');
+//     };
+// });
