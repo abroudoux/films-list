@@ -12,7 +12,7 @@ async function readFile(filename) {
         return FilmsList;
     } catch (err) {
         console.log(err);
-    }
+    };
 };
 
 function extractFilmTitle(film) {
@@ -42,11 +42,10 @@ async function getGoogleSearchResults(filmTitle) {
         return titles;
     });
 
-    searchResults.forEach((title, index) => {
-        // console.log(`Résultat : ${title}`);
+    searchResults.forEach((title) => {
         if (title.startsWith('Watch')) {
             FilmsNetflix.push(filmTitle);
-        }
+        };
     });
 
     await browser.close();
@@ -62,11 +61,8 @@ async function processFilmsList() {
             await getGoogleSearchResults(filmTitle);
         };
 
-        // console.log('Films disponibles sur Netflix :', FilmsNetflix);
-
         try {
             fs.writeFile('filmsNetflix.txt', FilmsNetflix.join('\n'), 'utf-8');
-            // console.log('Le fichier filmsNetflix.txt a été créé avec succès.');
         } catch (err) {
             console.error('Une erreur s\'est produite lors de l\'écriture du fichier :', err);
         }

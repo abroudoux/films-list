@@ -5,9 +5,9 @@
     "dotenv": "^16.3.1",
     "puppeteer": "^20.7.4"
   },
-  "name": "template-htm-css",
+  "name": "notion-films-netflix",
   "version": "1.0.0",
-  "main": "scripts.js",
+  "main": "results.sh",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "get": "node get.js",
